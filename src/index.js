@@ -44,10 +44,14 @@ app.post("/subscribe/:topic", (req, res) => {
         res.status(500).json({ status: "FAILED", message: { error: "Falta algún parámetro"} });
         return;
     }
+    
+    if (topic === 'Acciones' && !accionesSubscribed) {
+        connectMQTT();
+        subscribeTopic(topic);
+        accionesSubscribed = true; // Establecer la variable global como verdadera
+    }
 
-    connectMQTT();
-
-    subscribeTopic(topic);
+    res.status(200).json({ status: "OK" });
 });
 
 app.get("/messages", (req, res) => {
