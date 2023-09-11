@@ -7,6 +7,8 @@ const apiPort = 3000;
 
 app.use(cors());
 
+let accionesSubscribed = false;
+
 app.post("/send/:temp/:hum", (req, res) => {
     const {params: { temp, hum }} = req;
 
